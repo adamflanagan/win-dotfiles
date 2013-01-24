@@ -102,7 +102,7 @@ function prompt {
 }
 
 # UNIX friendly environment variables
-$env:EDITOR = "gvim"
+$env:EDITOR = "vim"
 $env:VISUAL = $env:EDITOR
 $env:GIT_EDITOR = $env:EDITOR
 $env:TERM = "msys"
