@@ -3,6 +3,7 @@ Import-Module .\pscx
 $psDir = Join-Path (Resolve-Path '~\Documents') 'WindowsPowerShell'
 # TODO: check existing $psDir
 New-Junction $psDir ..\
+New-Symlink ~\Documents\profile.ps1 ..\profile.ps1
 # Remove pscx; we'll get an upto date version using PsGet later.
 Remove-Module Pscx
 

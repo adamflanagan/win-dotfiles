@@ -1,8 +1,5 @@
-#
 # Profile.ps1 - main powershell profile script
-# 
 # Applies to all hosts, so only put things here that are global
-#
 
 # Setup the $home directory correctly
 if (-not $global:home) { $global:home = (Resolve-Path ~) }
@@ -41,16 +38,12 @@ Function Flush-Dns
     ipconfig /flushdns
 }
 
-# Vim-style shorten-path originally from Tomas Restrepo
-# https://github.com/tomasr
-function Get-VimShortPath([string] $path) {
-   $loc = $path.Replace($HOME, '~')
-	 $loc = $loc.Replace($env:WINDIR, '[Windows]')
-   # remove prefix for UNC paths
-   $loc = $loc -replace '^[^:]+::', ''
-   # make path shorter like tabs in Vim,
-   # handle paths starting with \\ and . correctly
-   return ($loc -replace '\\(\.?)([^\\])[^\\]*(?=\\)','\$1$2')
+function Get-ShortPath([string] $path) {
+    $loc = $path.Replace($HOME, '~')
+    $loc = $loc.Replace($env:WINDIR, '[Windows]')
+    # remove prefix for UNC paths
+    $loc = $loc -replace '^[^:]+::', ''
+	return $loc
 }
 
 # Source: http://paradisj.blogspot.com/2010/03/powershell-how-to-get-script-directory.html       
@@ -70,6 +63,10 @@ function Get-ScriptDirectory {
 	}
 }
 
+function Load-NotepadPlusPlus([string]$file) {
+	& 'C:\Program Files (x86)\Notepad++\notepad++.exe' $file
+}
+
 function Get-IsAdminUser() {
 	$id = [Security.Principal.WindowsIdentity]::GetCurrent()
 	$wp = new-object Security.Principal.WindowsPrincipal($id)
@@ -77,27 +74,19 @@ function Get-IsAdminUser() {
 }
 
 $global:promptTheme = @{
-	prefixColor = [ConsoleColor]::Cyan
-	pathColor = [ConsoleColor]::Cyan
-	pathBracesColor = [ConsoleColor]::DarkCyan
+	pathColor = [ConsoleColor]::DarkCyan
+	promptColor = [ConsoleColor]::Cyan
 	hostNameColor = ?: { Get-IsAdminUser } { [ConsoleColor]::Red } { [ConsoleColor]::Green }
 }
 
-function Load-NotepadPlusPlus([string]$file) {
-	& 'C:\Program Files (x86)\Notepad++\notepad++.exe' $file
-}
-
 function prompt {
-	$prefix = [char]0x221e + " "
-	$hostName = [net.dns]::GetHostName().ToLower()
-	$shortPath = get-vimShortPath(get-location)
+	$hostName = [net.dns]::GetHostName().ToUpper()
+	$shortPath = get-ShortPath(get-location)
 
-	Write-Host $prefix -noNewLine -foregroundColor $promptTheme.prefixColor
-	Write-Host $hostName -noNewLine -foregroundColor $promptTheme.hostNameColor
-	Write-Host ' {' -noNewLine -foregroundColor $promptTheme.pathBracesColor
 	Write-Host $shortPath -noNewLine -foregroundColor $promptTheme.pathColor
-	Write-Host '}' -noNewLine -foregroundColor $promptTheme.pathBracesColor
 	Write-VcsStatus # from posh-git, posh-hg and posh-svn
+	Write-Host ""
+	Write-Host ">" -noNewLine -foregroundColor $promptTheme.promptColor
 	return ' '
 }
 

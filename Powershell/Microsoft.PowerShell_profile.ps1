@@ -15,10 +15,3 @@ set-alias restart Invoke-SystemReboot
 if (test-path alias:\sleep) { remove-item alias:\sleep -force }
 set-alias sleep Invoke-SystemSleep -force
 set-alias lock Invoke-TerminalLock
-# Load posh-git example profile
-. 'C:\Users\Adam\Documents\WindowsPowerShell\Modules\posh-git\profile.example.ps1'
-
-
-# Load posh-hg example profile
-. 'C:\Users\Adam\Documents\WindowsPowerShell\Modules\posh-hg\profile.example.ps1'
-
