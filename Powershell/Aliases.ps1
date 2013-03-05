@@ -13,3 +13,4 @@ set-alias whence get-commandInfoEx
 set-alias npp Load-NotepadPlusPlus
 Set-Alias vi   $VIMPATH
 Set-Alias vim  $VIMPATH
+Set-Alias subl 'C:\Program Files\Sublime Text 2\sublime_text.exe'
