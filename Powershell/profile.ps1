@@ -74,7 +74,7 @@ function Get-IsAdminUser() {
 }
 
 $global:promptTheme = @{
-	pathColor = [ConsoleColor]::DarkCyan
+	pathColor = [ConsoleColor]::Cyan
 	promptColor = [ConsoleColor]::Cyan
 	hostNameColor = ?: { Get-IsAdminUser } { [ConsoleColor]::Red } { [ConsoleColor]::Green }
 }
