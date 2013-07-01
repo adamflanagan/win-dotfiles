@@ -6,7 +6,7 @@ function Get-Batchfile ($file) {
     }
 }
 
-function Load-VsVars32($version = "10.0")
+function Load-VsVars32($version = "11.0")
 {
     $key = "HKLM:SOFTWARE\Microsoft\VisualStudio\" + $version
     $VsKey = get-ItemProperty $key
